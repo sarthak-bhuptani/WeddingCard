@@ -1,11 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const PARTICLE_COLORS = [
-  "212, 180, 117", // Antique gold
-  "245, 226, 184", // Soft champagne
-  "148, 178, 240", // Royal sapphire mist
-];
-
+// Clean, non-distracting burst-only golden shimmer (no idle floating dots/petals over text)
 export default function GoldParticles({ burstTrigger }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
@@ -22,28 +17,6 @@ export default function GoldParticles({ burstTrigger }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const createParticle = (burst = false) => {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = burst ? 1.8 + Math.random() * 5.2 : 0.18 + Math.random() * 0.42;
-      const color =
-        PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
-      return {
-        x: burst ? canvas.width / 2 : Math.random() * canvas.width,
-        y: burst ? canvas.height / 2 : Math.random() * canvas.height,
-        vx: burst ? Math.cos(angle) * speed : (Math.random() - 0.5) * 0.28,
-        vy: burst ? Math.sin(angle) * speed - 1.4 : -0.18 - Math.random() * 0.38,
-        radius: burst ? 1.6 + Math.random() * 3.0 : 0.8 + Math.random() * 1.9,
-        alpha: burst ? 1 : 0.22 + Math.random() * 0.52,
-        decay: burst ? 0.014 : 0,
-        color,
-        burst,
-      };
-    };
-
-    particlesRef.current = Array.from({ length: 56 }, () =>
-      createParticle(false)
-    );
-
     let animId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -52,23 +25,17 @@ export default function GoldParticles({ burstTrigger }) {
         const p = list[i];
         p.x += p.vx;
         p.y += p.vy;
+        p.vy += 0.04;
+        p.alpha -= p.decay;
 
-        if (p.burst) {
-          p.vy += 0.05;
-          p.alpha -= p.decay;
-          if (p.alpha <= 0) {
-            list.splice(i, 1);
-            continue;
-          }
-        } else {
-          if (p.y < -10) p.y = canvas.height + 10;
-          if (p.x < -10) p.x = canvas.width + 10;
-          if (p.x > canvas.width + 10) p.x = -10;
+        if (p.alpha <= 0) {
+          list.splice(i, 1);
+          continue;
         }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color}, ${Math.max(0, p.alpha)})`;
+        ctx.fillStyle = `rgba(212, 180, 117, ${Math.max(0, p.alpha)})`;
         ctx.fill();
       }
       animId = requestAnimationFrame(animate);
@@ -85,21 +52,17 @@ export default function GoldParticles({ burstTrigger }) {
   useEffect(() => {
     if (!burstTrigger || !canvasRef.current) return;
     const canvas = canvasRef.current;
-    for (let i = 0; i < 54; i++) {
+    for (let i = 0; i < 40; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = 1.8 + Math.random() * 5.2;
-      const color =
-        PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
+      const speed = 1.6 + Math.random() * 4.2;
       particlesRef.current.push({
         x: canvas.width / 2,
         y: canvas.height / 2,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.3,
-        radius: 1.6 + Math.random() * 3.0,
-        alpha: 1,
-        decay: 0.014,
-        color,
-        burst: true,
+        vy: Math.sin(angle) * speed - 1.1,
+        radius: 1.4 + Math.random() * 2.2,
+        alpha: 0.9,
+        decay: 0.016,
       });
     }
   }, [burstTrigger]);

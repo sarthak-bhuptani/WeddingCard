@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, MapPin } from "lucide-react";
 import { WEDDING_DATA } from "../data/weddingData";
 
 function getTimeRemaining(targetISO) {
@@ -16,13 +15,14 @@ function getTimeRemaining(targetISO) {
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] },
 });
 
 export default function HeroSection() {
   const [countdown, setCountdown] = useState(() =>
     getTimeRemaining(WEDDING_DATA.dateISO)
   );
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -31,15 +31,35 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, []);
 
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ rx: -y * 7, ry: x * 9 });
+  };
+
+  const handleMouseLeave = () => setTilt({ rx: 0, ry: 0 });
+
   return (
     <motion.header
-      className="hero-section"
+      className="hero-section full-screen-hero"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.7 }}
     >
-      <div className="royal-hero-card">
-        {/* Top Sacred Mandala Watermark */}
+      {/* 3D Depth Stage */}
+      <div
+        className="hero-3d-stage"
+        style={{
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+        }}
+      >
+        {/* Slowly Rotating 3D Golden Orbit Halo behind Names */}
+        <div className="hero-3d-halo" aria-hidden="true" />
+
+        {/* Top Sacred Mandala */}
         <div className="hero-top-mandala" aria-hidden="true">
           <svg viewBox="0 0 220 110" className="top-mandala-svg">
             <circle
@@ -54,26 +74,18 @@ export default function HeroSection() {
             <circle
               cx="110"
               cy="0"
-              r="64"
+              r="62"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.2"
-            />
-            <circle
-              cx="110"
-              cy="0"
-              r="42"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.9"
+              strokeWidth="1.1"
             />
             {Array.from({ length: 12 }).map((_, i) => (
               <ellipse
                 key={i}
                 cx="110"
-                cy="56"
-                rx="7"
-                ry="16"
+                cy="54"
+                rx="6.5"
+                ry="15"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="0.9"
@@ -92,91 +104,133 @@ export default function HeroSection() {
             {WEDDING_DATA.parents.brideParents}
           </span>
           <br />
-          cordially invite you to the wedding of their daughter
+          cordially invite you to the wedding of
         </motion.p>
 
-        <motion.h1 className="hero-stacked-names" {...fadeUp(0.3)}>
-          <span className="script-name">{WEDDING_DATA.couple.bride}</span>
+        {/* Elevated 3D Layer Couple Names */}
+        <motion.h1
+          className="hero-stacked-names hero-layer-front"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="script-name shimmer-gold">
+            {WEDDING_DATA.couple.bride}
+          </span>
           <span className="script-amp">&amp;</span>
-          <span className="script-name">{WEDDING_DATA.couple.groom}</span>
+          <span className="script-name shimmer-gold">
+            {WEDDING_DATA.couple.groom}
+          </span>
         </motion.h1>
 
         <motion.p className="hero-groom-parents" {...fadeUp(0.4)}>
-          Son of {WEDDING_DATA.parents.groomParents}
+          S/o {WEDDING_DATA.parents.groomParents}
         </motion.p>
 
-        {/* Minimalist Gold Divider */}
+        {/* Minimal Gold Divider */}
         <motion.div
           className="hero-gold-divider"
           aria-hidden="true"
-          {...fadeUp(0.45)}
+          {...fadeUp(0.48)}
         >
           <span className="div-line" />
-          <svg viewBox="0 0 40 16" className="div-crest">
-            <path
-              d="M2,8 Q10,16 20,8 Q30,16 38,8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.4"
-            />
-            <circle cx="20" cy="8" r="2.2" fill="currentColor" />
-          </svg>
+          <i className="div-diamond" />
           <span className="div-line" />
         </motion.div>
 
-        {/* Architectural Save-The-Date Showcase */}
-        <motion.div className="save-date-showcase" {...fadeUp(0.55)}>
-          <span className="save-date-kicker">
-            <Calendar size={13} aria-hidden="true" />
-            <span>SAVE THE DATE</span>
-          </span>
-
-          <div className="date-triptych">
-            <span className="date-side">SUNDAY</span>
-            <span className="date-day-num">24</span>
-            <span className="date-side">JAN 2027</span>
-          </div>
-
-          <div className="date-venue-line">
-            <MapPin size={14} aria-hidden="true" />
-            <span>{WEDDING_DATA.city}</span>
-          </div>
+        {/* Clean Minimal Date & Venue */}
+        <motion.div className="minimal-date-block" {...fadeUp(0.56)}>
+          <p className="minimal-date-main">{WEDDING_DATA.displayDate}</p>
+          <p className="minimal-venue-sub">{WEDDING_DATA.city}</p>
         </motion.div>
 
-        {/* Animated Countdown */}
+        {/* Sleek 3D-Lifted Inline Countdown Strip */}
         <motion.div
-          className="countdown-grid"
+          className="minimal-countdown-strip hero-layer-mid"
           aria-label="Wedding Countdown"
-          {...fadeUp(0.65)}
+          {...fadeUp(0.66)}
         >
           {[
             { label: "Days", value: countdown.days },
-            { label: "Hours", value: countdown.hours },
-            { label: "Mins", value: countdown.mins },
-            { label: "Secs", value: countdown.secs },
+            { label: "Hrs", value: countdown.hours },
+            { label: "Min", value: countdown.mins },
+            { label: "Sec", value: countdown.secs },
           ].map((item) => (
-            <motion.div
-              className="count-box"
-              key={item.label}
-              whileHover={{ y: -4, scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            >
-              <span className="count-num">{item.value}</span>
-              <span className="count-label">{item.label}</span>
-            </motion.div>
+            <div className="strip-unit" key={item.label}>
+              <span className="strip-num">{item.value}</span>
+              <span className="strip-lbl">{item.label}</span>
+            </div>
           ))}
         </motion.div>
 
-        {/* Artistic Gold-Foil & Watercolor Dulha-Dulhan Drawing */}
+        {/* Transparent Engraved Gold Kalash & Lotus Crest (Zero Box!) */}
         <motion.div
-          className="hero-illustration-wrap"
-          {...fadeUp(0.75)}
+          className="hero-kalash-crest"
+          aria-hidden="true"
+          {...fadeUp(0.76)}
         >
-          <img
-            src="/royal-couple.jpg"
-            alt="Hand-drawn Dulha and Dulhan wedding illustration"
-            className="hero-illustration-img"
-          />
+          <svg viewBox="0 0 280 120" className="kalash-crest-svg">
+            <defs>
+              <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#9c7228" />
+                <stop offset="50%" stopColor="#f5e2b8" />
+                <stop offset="100%" stopColor="#9c7228" />
+              </linearGradient>
+            </defs>
+            {/* Ornamental Floral Swirl Base */}
+            <motion.path
+              d="M20,96 Q80,68 140,96 Q200,68 260,96"
+              fill="none"
+              stroke="url(#crestGold)"
+              strokeWidth="1.2"
+              initial={{ pathLength: 0, opacity: 0.2 }}
+              animate={{ pathLength: 1, opacity: 0.85 }}
+              transition={{ duration: 1.6, ease: "easeInOut" }}
+            />
+            <path
+              d="M50,104 Q95,86 140,104 Q185,86 230,104"
+              fill="none"
+              stroke="url(#crestGold)"
+              strokeWidth="0.9"
+              opacity="0.55"
+            />
+            {/* Sacred Mangal Kalash */}
+            <path
+              d="M124,54 C116,66 118,86 140,88 C162,86 164,66 156,54 Z"
+              fill="rgba(212, 180, 117, 0.1)"
+              stroke="url(#crestGold)"
+              strokeWidth="1.4"
+            />
+            <path
+              d="M126,54 Q140,48 154,54"
+              fill="none"
+              stroke="url(#crestGold)"
+              strokeWidth="1.3"
+            />
+            {/* Coconut & Mango Leaves */}
+            <ellipse
+              cx="140"
+              cy="43"
+              rx="9"
+              ry="11"
+              fill="rgba(212, 180, 117, 0.14)"
+              stroke="url(#crestGold)"
+              strokeWidth="1.2"
+            />
+            <path
+              d="M132,48 Q116,38 112,48 Q122,52 132,50 M148,48 Q164,38 168,48 Q158,52 148,50"
+              fill="none"
+              stroke="url(#crestGold)"
+              strokeWidth="1.15"
+            />
+            {/* Lotus Petals flanking Kalash */}
+            <path
+              d="M116,84 Q96,70 86,84 Q102,90 116,84 Z M164,84 Q184,70 194,84 Q178,90 164,84 Z"
+              fill="rgba(212, 180, 117, 0.08)"
+              stroke="url(#crestGold)"
+              strokeWidth="1.1"
+            />
+          </svg>
         </motion.div>
       </div>
     </motion.header>

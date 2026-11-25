@@ -7,7 +7,6 @@ import Envelope3D from "./components/Envelope3D";
 import HeroSection from "./components/HeroSection";
 import BlessingFlipCard from "./components/BlessingFlipCard";
 import EventsSection from "./components/EventsSection";
-import RsvpSection from "./components/RsvpSection";
 import FloatingControls from "./components/FloatingControls";
 
 export default function App() {
@@ -71,7 +70,6 @@ export default function App() {
             <HeroSection />
             <BlessingFlipCard />
             <EventsSection />
-            <RsvpSection onCelebrate={() => setBurstCount((c) => c + 1)} />
 
             <footer className="site-footer">
               <p className="footer-monogram">{WEDDING_DATA.couple.initials}</p>

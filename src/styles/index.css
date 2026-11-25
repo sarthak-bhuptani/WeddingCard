@@ -54,38 +54,38 @@ body {
   z-index: 1;
 }
 
-/* Floating Controls */
+/* Floating Controls — Clean Top-Right Bar (No Overlap) */
 .floating-controls {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  top: 12px;
+  right: 14px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   z-index: 60;
 }
 
 .control-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  gap: 6px;
+  padding: 7px 13px;
   border-radius: 999px;
-  border: 1px solid rgba(104, 16, 28, 0.28);
-  background: rgba(250, 246, 239, 0.92);
+  border: 1px solid rgba(243, 201, 122, 0.35);
+  background: rgba(22, 3, 10, 0.85);
   backdrop-filter: blur(10px);
-  color: var(--peacock-rich);
+  color: var(--champagne-light);
   font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  box-shadow: 0 8px 22px rgba(68, 48, 30, 0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
 .control-btn:hover {
   transform: translateY(-2px);
-  border-color: var(--peacock-rich);
-  background: #ffffff;
+  border-color: var(--champagne);
+  background: rgba(59, 9, 27, 0.92);
 }
 
 /* =========================================================
@@ -434,11 +434,11 @@ body {
   z-index: 10;
   max-width: 1040px;
   margin: 0 auto;
-  padding: 28px 18px 84px;
+  padding: 66px 18px 64px;
 }
 
 .hero-section {
-  margin-bottom: 64px;
+  margin-bottom: 56px;
 }
 
 .royal-hero-card {
@@ -446,7 +446,7 @@ body {
   background: radial-gradient(circle at 50% 15%, #3e0a1d 0%, #16030a 78%);
   border: 1.5px solid rgba(243, 201, 122, 0.35);
   border-radius: 26px;
-  padding: 0 20px 0;
+  padding: 0 20px 18px;
   text-align: center;
   overflow: hidden;
   box-shadow: var(--shadow-royal);
@@ -533,20 +533,63 @@ body {
   height: 16px;
 }
 
-.hero-date-pill {
+/* Architectural Save-The-Date Showcase */
+.save-date-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 360px;
+  margin: 0 auto 26px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(243, 201, 122, 0.34);
+  background: linear-gradient(160deg, rgba(243, 201, 122, 0.1), rgba(22, 3, 10, 0.55));
+  box-shadow: 0 12px 30px rgba(8, 1, 4, 0.4);
+}
+
+.save-date-kicker {
   display: inline-flex;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  color: var(--champagne);
+  font-weight: 600;
+}
+
+.date-triptych {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px 12px;
-  padding: 9px 22px;
-  border-radius: 999px;
-  border: 1px solid rgba(243, 201, 122, 0.42);
-  background: rgba(243, 201, 122, 0.1);
+  gap: 14px;
+}
+
+.date-side {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  color: rgba(250, 244, 234, 0.85);
+  border-top: 1px solid rgba(243, 201, 122, 0.35);
+  border-bottom: 1px solid rgba(243, 201, 122, 0.35);
+  padding: 4px 10px;
+}
+
+.date-day-num {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
   color: var(--champagne-light);
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
+  text-shadow: 0 0 18px rgba(243, 201, 122, 0.4);
+}
+
+.date-venue-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: rgba(250, 244, 234, 0.82);
 }
 
 .countdown-grid {
@@ -554,14 +597,20 @@ body {
   grid-template-columns: repeat(4, minmax(64px, 104px));
   justify-content: center;
   gap: 12px;
-  margin-bottom: 26px;
+  margin-bottom: 18px;
 }
 
 .count-box {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(243, 201, 122, 0.28);
+  border: 1px solid rgba(243, 201, 122, 0.3);
   border-radius: 14px;
   padding: 12px 8px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.count-box:hover {
+  border-color: var(--champagne);
+  box-shadow: 0 0 16px rgba(243, 201, 122, 0.22);
 }
 
 .count-num {
@@ -582,10 +631,16 @@ body {
   color: rgba(250, 244, 234, 0.7);
 }
 
+.parents-highlight {
+  color: var(--champagne-light);
+  font-weight: 500;
+}
+
+/* Seamless Artistic Dulha-Dulhan Drawing */
 .hero-illustration-wrap {
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 390px;
+  margin: 4px auto 0;
   overflow: hidden;
 }
 
@@ -593,8 +648,8 @@ body {
   width: 100%;
   height: auto;
   display: block;
-  -webkit-mask-image: linear-gradient(to top, black 78%, transparent 100%);
-  mask-image: linear-gradient(to top, black 78%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 78% at 50% 52%, black 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 78% at 50% 52%, black 55%, transparent 100%);
 }
 
 .section-block {
@@ -1032,7 +1087,7 @@ body {
   }
 
   .invite-content {
-    padding: 24px 14px 84px;
+    padding: 60px 14px 56px;
   }
 
   .hero-card {
@@ -1063,14 +1118,14 @@ body {
   }
 
   .floating-controls {
-    bottom: 14px;
-    right: 14px;
-    gap: 8px;
+    top: 12px;
+    right: 12px;
+    gap: 6px;
   }
 
   .control-btn {
-    padding: 8px 12px;
-    font-size: 0.76rem;
+    padding: 7px 11px;
+    font-size: 0.72rem;
   }
 }
 

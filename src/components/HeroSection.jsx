@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Calendar, MapPin } from "lucide-react";
 import { WEDDING_DATA } from "../data/weddingData";
 
 function getTimeRemaining(targetISO) {
@@ -11,6 +12,12 @@ function getTimeRemaining(targetISO) {
     secs: String(Math.floor((diff / 1000) % 60)).padStart(2, "0"),
   };
 }
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+});
 
 export default function HeroSection() {
   const [countdown, setCountdown] = useState(() =>
@@ -27,17 +34,39 @@ export default function HeroSection() {
   return (
     <motion.header
       className="hero-section"
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, ease: "easeOut" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="royal-hero-card">
         {/* Top Sacred Mandala Watermark */}
         <div className="hero-top-mandala" aria-hidden="true">
           <svg viewBox="0 0 220 110" className="top-mandala-svg">
-            <circle cx="110" cy="0" r="84" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 5" />
-            <circle cx="110" cy="0" r="64" fill="none" stroke="currentColor" strokeWidth="1.2" />
-            <circle cx="110" cy="0" r="42" fill="none" stroke="currentColor" strokeWidth="0.9" />
+            <circle
+              cx="110"
+              cy="0"
+              r="84"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeDasharray="3 5"
+            />
+            <circle
+              cx="110"
+              cy="0"
+              r="64"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+            />
+            <circle
+              cx="110"
+              cy="0"
+              r="42"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.9"
+            />
             {Array.from({ length: 12 }).map((_, i) => (
               <ellipse
                 key={i}
@@ -54,26 +83,34 @@ export default function HeroSection() {
           </svg>
         </div>
 
-        <p className="hero-ganesh-en">SHRI GANESHAYA NAMAH</p>
+        <motion.p className="hero-ganesh-en" {...fadeUp(0.1)}>
+          SHRI GANESHAYA NAMAH
+        </motion.p>
 
-        <p className="hero-family-invite">
-          Together with {WEDDING_DATA.parents.brideParents},
+        <motion.p className="hero-family-invite" {...fadeUp(0.2)}>
+          <span className="parents-highlight">
+            {WEDDING_DATA.parents.brideParents}
+          </span>
           <br />
-          invite you to the wedding of
-        </p>
+          cordially invite you to the wedding of their daughter
+        </motion.p>
 
-        <h1 className="hero-stacked-names">
+        <motion.h1 className="hero-stacked-names" {...fadeUp(0.3)}>
           <span className="script-name">{WEDDING_DATA.couple.bride}</span>
           <span className="script-amp">&amp;</span>
           <span className="script-name">{WEDDING_DATA.couple.groom}</span>
-        </h1>
+        </motion.h1>
 
-        <p className="hero-groom-parents">
+        <motion.p className="hero-groom-parents" {...fadeUp(0.4)}>
           Son of {WEDDING_DATA.parents.groomParents}
-        </p>
+        </motion.p>
 
         {/* Minimalist Gold Divider */}
-        <div className="hero-gold-divider" aria-hidden="true">
+        <motion.div
+          className="hero-gold-divider"
+          aria-hidden="true"
+          {...fadeUp(0.45)}
+        >
           <span className="div-line" />
           <svg viewBox="0 0 40 16" className="div-crest">
             <path
@@ -85,36 +122,62 @@ export default function HeroSection() {
             <circle cx="20" cy="8" r="2.2" fill="currentColor" />
           </svg>
           <span className="div-line" />
-        </div>
+        </motion.div>
 
-        <div className="hero-date-pill">
-          <span>{WEDDING_DATA.displayDate}</span>
-          <span className="dot-sep">•</span>
-          <span>{WEDDING_DATA.city}</span>
-        </div>
+        {/* Architectural Save-The-Date Showcase */}
+        <motion.div className="save-date-showcase" {...fadeUp(0.55)}>
+          <span className="save-date-kicker">
+            <Calendar size={13} aria-hidden="true" />
+            <span>SAVE THE DATE</span>
+          </span>
 
-        <div className="countdown-grid" aria-label="Wedding Countdown">
+          <div className="date-triptych">
+            <span className="date-side">SUNDAY</span>
+            <span className="date-day-num">24</span>
+            <span className="date-side">JAN 2027</span>
+          </div>
+
+          <div className="date-venue-line">
+            <MapPin size={14} aria-hidden="true" />
+            <span>{WEDDING_DATA.city}</span>
+          </div>
+        </motion.div>
+
+        {/* Animated Countdown */}
+        <motion.div
+          className="countdown-grid"
+          aria-label="Wedding Countdown"
+          {...fadeUp(0.65)}
+        >
           {[
             { label: "Days", value: countdown.days },
             { label: "Hours", value: countdown.hours },
             { label: "Mins", value: countdown.mins },
             { label: "Secs", value: countdown.secs },
           ].map((item) => (
-            <div className="count-box" key={item.label}>
+            <motion.div
+              className="count-box"
+              key={item.label}
+              whileHover={{ y: -4, scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+            >
               <span className="count-num">{item.value}</span>
               <span className="count-label">{item.label}</span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Royal Couple & Procession Illustration */}
-        <div className="hero-illustration-wrap">
+        {/* Artistic Gold-Foil & Watercolor Dulha-Dulhan Drawing */}
+        <motion.div
+          className="hero-illustration-wrap"
+          {...fadeUp(0.75)}
+        >
           <img
             src="/royal-couple.jpg"
-            alt="Traditional Indian wedding couple celebration"
+            alt="Hand-drawn Dulha and Dulhan wedding illustration"
             className="hero-illustration-img"
           />
-        </div>
+        </motion.div>
       </div>
     </motion.header>
   );

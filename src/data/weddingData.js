@@ -8,8 +8,8 @@ export const WEDDING_DATA = {
   shloka: "|| श्री गणेशाय नमः ||",
   invocation: "|| वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ||",
   parents: {
-    groomParents: "Smt. Meera & Shri Rajeshwar Patel",
-    brideParents: "Smt. Kavita & Shri Mahendra Mehta",
+    groomParents: "Smt. Rekhaben & Shri Sanjaybhai",
+    brideParents: "Smt. Ilaben & Shri Manojbhai Bhuptani",
   },
   dateISO: "2027-01-24T16:00:00+05:30",
   displayDate: "Sunday, 24th January 2027",

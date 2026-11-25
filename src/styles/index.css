@@ -147,35 +147,105 @@ body {
   font-size: clamp(2.15rem, 7vw, 3.1rem);
   font-weight: 500;
   letter-spacing: 0.03em;
-  color: #cbb07a;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  background: linear-gradient(
+    110deg,
+    #b79455 20%,
+    #fff1cc 45%,
+    #cbb07a 58%,
+    #fff1cc 75%,
+    #b79455 95%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.55));
   text-align: center;
+  animation: goldTextShimmer 5.5s linear infinite;
 }
 
-/* Scroll Assembly */
-.royal-scroll-assembly {
+@keyframes goldTextShimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 220% center;
+  }
+}
+
+/* 3D Tilted Orbiting Halo Behind Scroll */
+.scroll-3d-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(86vw, 430px);
+  height: min(86vw, 430px);
+  margin-top: calc(min(86vw, 430px) / -2);
+  margin-left: calc(min(86vw, 430px) / -2);
+  border-radius: 50%;
+  border: 1.5px dashed rgba(212, 180, 117, 0.28);
+  box-shadow: inset 0 0 40px rgba(212, 180, 117, 0.08);
+  pointer-events: none;
+  z-index: 2;
+  animation: haloOrbit3D 16s linear infinite;
+}
+
+@keyframes haloOrbit3D {
+  0% {
+    transform: perspective(900px) rotateX(66deg) rotateY(-12deg) rotateZ(0deg);
+  }
+  100% {
+    transform: perspective(900px) rotateX(66deg) rotateY(-12deg) rotateZ(360deg);
+  }
+}
+
+/* Scroll 4D Canvas & 3D Perspective Assembly */
+.scroll-4d-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.scroll-4d-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-3d-perspective {
   position: relative;
   z-index: 4;
+  perspective: 1400px;
   width: min(92vw, 380px);
+  display: flex;
+  justify-content: center;
+  margin-top: -18px;
+}
+
+.royal-scroll-assembly {
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
   outline: none;
-  margin-top: -18px;
-  animation: scrollFloat 4.8s ease-in-out infinite;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: scrollFloat3D 6.5s ease-in-out infinite;
 }
 
 .royal-scroll-assembly.is-unrolling {
   animation: none;
 }
 
-@keyframes scrollFloat {
+@keyframes scrollFloat3D {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotateX(5deg) rotateY(-7deg);
   }
   50% {
-    transform: translateY(-6px);
+    transform: translateY(-9px) rotateX(-3deg) rotateY(7deg);
   }
 }
 
@@ -193,7 +263,13 @@ body {
     #ebe0ca 70%,
     #bfa982 100%
   );
+  transform: translateZ(8px);
+  transition: transform 2.1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.royal-scroll-assembly.is-unrolling .scroll-top-roll {
+  transform: translateZ(14px) rotateX(360deg);
 }
 
 /* Expanding Parchment Sheet */
@@ -202,6 +278,7 @@ body {
   z-index: 2;
   width: 64%;
   height: 0px;
+  transform: translateZ(12px);
   background: linear-gradient(
     90deg,
     #d6c4a4 0%,
@@ -287,7 +364,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateZ(22px);
+  transition: transform 2.1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
   filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.6));
+}
+
+.royal-scroll-assembly.is-unrolling .scroll-bottom-unit {
+  transform: translateZ(26px) rotateX(-360deg);
 }
 
 .scroll-bottom-roll {
@@ -329,13 +412,13 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(36px);
   z-index: 6;
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: none;
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s ease;
+  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s ease;
 }
 
 .twisted-cord-loop {
@@ -420,9 +503,9 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55));
 }
 
-/* Untie Animation */
+/* Untie Animation — Cord Drops & Swings Away in 3D */
 .royal-scroll-assembly.is-unrolling .silk-tie-wrap {
-  transform: translateX(-50%) scale(1.25);
+  transform: translateX(-50%) translateY(75px) translateZ(70px) rotate(14deg) scale(1.18);
   opacity: 0;
 }
 

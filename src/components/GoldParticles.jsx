@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 
 const PARTICLE_COLORS = [
-  "243, 201, 122", // Luminous gold
-  "255, 232, 184", // Soft champagne
-  "232, 180, 140", // Warm rose-gold
+  "212, 180, 117", // Antique gold
+  "245, 226, 184", // Soft champagne
+  "148, 178, 240", // Royal sapphire mist
 ];
 
 export default function GoldParticles({ burstTrigger }) {

@@ -22,7 +22,7 @@ export default function App() {
     setTimeout(() => {
       setIsOpened(true);
       window.scrollTo({ top: 0, behavior: "instant" });
-    }, 3800);
+    }, 3200);
   };
 
   const handleSkipIntro = () => {
